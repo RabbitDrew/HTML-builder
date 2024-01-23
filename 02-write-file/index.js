@@ -1,4 +1,9 @@
 const fs = require('fs');
-fs.writeFileSync('02-write-file/text.txt', 'Hello World', 'utf-8');
-const result = fs.readFileSync('text.txt', 'utf-8');
-console.log(result);
+
+const create = fs.createWriteStream('02-write-file/text.txt');
+create.write('Hello');
+
+const read = fs.createReadStream('02-write-file/text.txt');
+read.on('data', (chank) => {
+  console.log(chank.toString());
+});

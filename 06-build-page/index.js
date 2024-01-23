@@ -1,33 +1,33 @@
-const fs = require('fs')
-const path = require('path')
-//html 
-function createFolder () {
-  fs.mkdirSync ('06-build-page/project-dist', {recursive: true})
+const fs = require('fs');
+const path = require('path');
+//html
+function createFolder() {
+  fs.mkdirSync('06-build-page/project-dist', { recursive: true });
 }
 
-let files
+let files;
 function getElement() {
- files = fs.readdirSync('06-build-page/components')
- console.log(files)
+  files = fs.readdirSync('06-build-page/components');
+  console.log(files);
 }
-getElement() 
+getElement();
 
-let readFiles 
-function readHtmlComponents () {
-   for (let i = 0; i < files.length; i++) {
-    readFiles += fs.readFileSync(path.join(__dirname,'components', files[i],), 'utf-8') + '\n'
-   }  
-   console.log(readFiles)
+let readFiles;
+function readHtmlComponents() {
+  for (let i = 0; i < files.length; i++) {
+    readFiles +=
+      fs.readFileSync(path.join(__dirname, 'components', files[i]), 'utf-8') +
+      '\n';
+  }
+  console.log(readFiles);
 }
-readHtmlComponents () 
+readHtmlComponents();
 
-let readHtml
-let regex 
-function readTemplate () {
-    readHtml = fs.readFileSync(path.join(__dirname,'template.html'), 'utf-8')
-    console.log(readHtml)
-    regex = /{{(\w+)}}/g
+let readHtml;
+let regex;
+function readTemplate() {
+  readHtml = fs.readFileSync(path.join(__dirname, 'template.html'), 'utf-8');
+  console.log(readHtml);
+  regex = /{{(\w+)}}/g;
 }
-readTemplate ()
-
-
+readTemplate();
