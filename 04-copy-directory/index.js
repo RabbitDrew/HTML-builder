@@ -1,31 +1,43 @@
 const fs = require('fs');
-fs.mkdir('04-copy-directory/files-copy', function (err) {
-  if (err) {
-    console.error(err);
+//create the folder
+fs.access('04-copy-directory/files-copy', function (err) {
+  if (err && err.code === 'ENOENT') {
+    fs.mkdir('04-copy-directory/files-copy', {recursive: true}, function (err) {
+      if (err) {
+        console.error(err);
+      } else {
+        copyDir();
+        console.log('the folder has been created');
+      }
+    });
   } else {
-    console.log('the folder is created');
+    copyDir();
+    console.log('the folder has been updated');
   }
 });
-
+//create the copy derictory
 function copyDir() {
-  // get coppied files
-  const files = fs.readdirSync('04-copy-directory/files');
-  console.log(files);
-  //coppie files
-  for (let i = 0; i < files.length; i++) {
-    fs.copyFile(
-      `04-copy-directory/files/${files[i]}`,
-      `04-copy-directory/files-copy/${files[i]}`,
-      function (err) {
-        if (err) {
-          console.log(err);
-        } else {
-        }
-      },
-    );
-  }
+fs.readdir('04-copy-directory/files', function (err, files){
+    if (err) {
+      console.log(err)
+    }else {
+      console.log(files)
+      for (let i = 0; i < files.length; i++) {
+        fs.copyFile(
+          `04-copy-directory/files/${files[i]}`,
+          `04-copy-directory/files-copy/${files[i]}`,
+          function (err) {
+            if (err) {
+              console.log(err);
+            } else {
+              console.log(files[i])
+            }
+          },
+        );
+      }
+    }
+  });
 }
-copyDir();
 
 //the function for delete folde files-copy
 /*fs.rm('04-copy-directory/files-copy', { recursive: true }, (err) => {
