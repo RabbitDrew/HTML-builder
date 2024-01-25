@@ -34,7 +34,7 @@ function copyDir() {
             if (err) {
               console.log(err);
             } else {
-              console.log(files[i]);
+
             }
           },
         );

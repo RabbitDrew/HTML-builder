@@ -14,7 +14,7 @@ fs.mkdir('06-build-page/project-dist/', { recursive: true }, function (err) {
 let index
 let template = fs.createReadStream('06-build-page/template.html');
 template.on('data', (chank) => {
-  console.log(chank.toString());
+  /*console.log(chank.toString());*/
   fs.writeFile(
     '06-build-page/project-dist/index.html',
     `${chank}`,
@@ -22,7 +22,7 @@ template.on('data', (chank) => {
       if (err) {
         console.log(err);
       } else {
-        console.log('created');
+        /*console.log('created');*/
         updateIndex ()
       }
     },
@@ -38,31 +38,31 @@ function updateIndex () {
         throw err;
       } else {
         index = data;
-        console.log(index);
+        /*console.log(index);*/
         fs.readdir('06-build-page/components', function (err, files) {
           if (err) {
             throw err;
           } else {
-            console.log(files);
+            /*console.log(files);*/
             let header, article, footer; 
             let headerComp = fs.createReadStream(
               `06-build-page/components/${files[2]}`,
             );
             headerComp.on('data', (chank) => {
               header = chank.toString();
-              console.log(header);
+              /*console.log(header);*/
               let articleComp = fs.createReadStream(
                 `06-build-page/components/${files[0]}`,
               );
               articleComp.on('data', (chank) => {  
                 article = chank.toString();
-                console.log(article);
+                /*console.log(article);*/
                 let footerComp = fs.createReadStream(
                   `06-build-page/components/${files[1]}`,
                 );
                 footerComp.on('data', (chank) => {
                   footer = chank.toString();
-                  console.log(footer);
+                  /*console.log(footer);*/
                   let replaceHead = index.replace('{{header}}', header); 
                   let replaceArt = replaceHead.replace('{{articles}}', article); 
                   let replaceFooter = replaceArt.replace('{{footer}}', footer); 
@@ -73,7 +73,7 @@ function updateIndex () {
                       if (err) {
                         console.log(err);
                       } else {
-                        console.log('created');
+                        /*console.log('created');*/
                       }
                     },
                   );
@@ -94,7 +94,7 @@ fs.readdir('06-build-page/styles', function (err, files) {
   if (err) {
     console.log(err);
   } else {
-   console.log(files);
+   /*console.log(files);*/
     getStyles(files)
   }
 });
@@ -103,7 +103,7 @@ function getStyles(files) {
  for (let i = 0; i < files.length; i++) {
     let styleRead = fs.createReadStream(`06-build-page/styles/${files[i]}`)
     styleRead.on ('data', (chunk) => {
-      console.log(chunk.toString())
+      /*console.log(chunk.toString())*/
       fs.appendFile (`06-build-page/project-dist/style.css`,`${chunk.toString()}`, function (err) {
         if (err) {
           console.log(err)
@@ -129,7 +129,7 @@ function copyFolder(from, to) {
                     if (stats.isFile()) {
                         fs.copyFile(src, dest, (err) => {
                             if (err) throw err;
-                            console.log(`Copied ${src} to ${dest}`);
+                            /*console.log(`Copied ${src} to ${dest}`);*/
                         });
                     } else {
                         copyFolder(src, dest);

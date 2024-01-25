@@ -18,7 +18,7 @@ function bundle() {
     if (err) {
       console.log(err);
     } else {
-      console.log(files);
+      /*console.log(files);*/
       for (let i = 0; i < files.length; i++) {
         let ext = path.extname(files[i]);
         if (ext !== '.css') {
@@ -26,7 +26,7 @@ function bundle() {
         }
         let reader = fs.createReadStream(`05-merge-styles/styles/${files[i]}`);
         reader.on('data', (chank) => {
-          console.log(chank.toString());
+          /*console.log(chank.toString());*/
           fs.appendFile(
             '05-merge-styles/project-dist/styles/bundle.css',
             `${chank}`,
