@@ -1,11 +1,16 @@
 let fs = require('fs');
-const path = require('path');
+let path = require('path')
+let folder = `03-files-in-folder/secret-folder`
 
-fs.readdir('03-files-in-folder/secret-folder', function (err, files) {
+fs.readdir('03-files-in-folder/secret-folder', { withFileTypes: true }, function (err, files) {
   if (err) {
     console.log(err);
   } else {
-    getFilesData(files);
+    files.forEach (el => { 
+      if (el.isFile()) {
+        getFilesData([el.name]); 
+      }
+    })
   }
 });
 
@@ -16,13 +21,11 @@ function getFilesData(files) {
       function (err, stats) {
         if (err) {
           console.log(err);
-        } else {
+        } else  {
           const { name, ext } = path.parse(files[i]);
-          const { size } = stats;
+          const size = stats.size / 1024; 
 
-          console.log(`file name: ${name}`);
-          console.log(`file extension: ${ext}`);
-          console.log(`file size: ${size} байт`);
+          console.log(`${name} - ${ext}  - ${size}kb;` );
         }
       },
     );
