@@ -2,14 +2,18 @@ const fs = require('fs');
 //create the folder
 fs.access('04-copy-directory/files-copy', function (err) {
   if (err && err.code === 'ENOENT') {
-    fs.mkdir('04-copy-directory/files-copy', {recursive: true}, function (err) {
-      if (err) {
-        console.error(err);
-      } else {
-        copyDir();
-        console.log('the folder has been created');
-      }
-    });
+    fs.mkdir(
+      '04-copy-directory/files-copy',
+      { recursive: true },
+      function (err) {
+        if (err) {
+          console.error(err);
+        } else {
+          copyDir();
+          console.log('the folder has been created');
+        }
+      },
+    );
   } else {
     copyDir();
     console.log('the folder has been updated');
@@ -17,11 +21,11 @@ fs.access('04-copy-directory/files-copy', function (err) {
 });
 //create the copy derictory
 function copyDir() {
-fs.readdir('04-copy-directory/files', function (err, files){
+  fs.readdir('04-copy-directory/files', function (err, files) {
     if (err) {
-      console.log(err)
-    }else {
-      console.log(files)
+      console.log(err);
+    } else {
+      console.log(files);
       for (let i = 0; i < files.length; i++) {
         fs.copyFile(
           `04-copy-directory/files/${files[i]}`,
@@ -30,7 +34,7 @@ fs.readdir('04-copy-directory/files', function (err, files){
             if (err) {
               console.log(err);
             } else {
-              console.log(files[i])
+              console.log(files[i]);
             }
           },
         );
