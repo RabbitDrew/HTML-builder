@@ -1,5 +1,4 @@
 const fs = require('fs');
-const path = require('path');
 const pathFiles = '04-copy-directory/files';
 
 //create the folder
