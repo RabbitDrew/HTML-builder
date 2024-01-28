@@ -1,37 +1,53 @@
 const fs = require('fs');
+const path = require('path');
 const readline = require('readline');
+//interface of readline
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 });
-
+//ask question
 function quest() {
-  rl.question("Hi bro! what's up?", function (answer) {
-    console.log(answer);
-    if (answer === "exit") { // если ответ равен exit, то вызываем функцию exit
-      exit();
-    } else {
-      fs.appendFile('02-write-file/text.txt', answer + '\n', function (err) {
+  rl.question(
+    "Hi) You've got three wishes\n What would you chose ?\n",
+    function (answer) {
+      //add first answer
+      fs.appendFile('02-write-file/text.txt', `${answer}` + '\n', (err) => {
         if (err) {
-          console.error(err);
+          throw err;
         } else {
-          quest();
+          if (answer === 'exit' || answer === 'quite') {
+            //if we print the words quite or exit the function will be close
+            exit();
+          }
+          //callback for adding the rest of answers to the text.txt file
+          writeAnswer();
         }
       });
-    }
+    },
+  );
+}
+quest();
+//write answer to th file
+function writeAnswer() {
+  rl.on('line', (a) => {
+    fs.appendFile('02-write-file/text.txt', `${a}` + '\n', (err) => {
+      if (err) {
+        throw err;
+      } else {
+        if (a === 'exit' || a === 'quite') {
+          //if we print the words quite or exit the function will be close
+          exit();
+        }
+      }
+    });
   });
 }
-
-function exit() {
-  rl.close(); 
-  process.exit(0); 
-}
-
-quest();
-
-rl.on("SIGINT", exit); 
-
-process.on("exit", (code) => {
+//handler for 'ctrl+c' to  the "Good luck bro, see you"
+process.on('exit', (code) => {
   console.log(`Good luck bro, see you`);
 });
-
+//exit function
+function exit() {
+  rl.close();
+}

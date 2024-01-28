@@ -1,33 +1,29 @@
 let fs = require('fs');
-let path = require('path')
-let folder = `03-files-in-folder/secret-folder`
+let path = require('path');
+let folder = `03-files-in-folder/secret-folder`;
 
-fs.readdir('03-files-in-folder/secret-folder', { withFileTypes: true }, function (err, files) {
-  if (err) {
-    console.log(err);
-  } else {
-    files.forEach (el => { 
-      if (el.isFile()) {
-        getFilesData([el.name]); 
-      }
-    })
-  }
-});
-
-function getFilesData(files) {
-  for (let i = 0; i < files.length; i++) {
-    fs.stat(
-      `03-files-in-folder/secret-folder/${files[i]}`,
-      function (err, stats) {
-        if (err) {
-          console.log(err);
-        } else  {
-          const { name, ext } = path.parse(files[i]);
-          const size = stats.size / 1024; 
-
-          console.log(`${name} - ${ext}  - ${size}kb;` );
-        }
-      },
-    );
+// get all the files from the folder
+function getTheFiles() {
+  fs.readdir(`${folder}`, function (err, files) {
+    if (err) {
+      throw err;
+    } else {
+      getStats(files); // get all filse from secret folders to the getStats function
+    }
+  });
+}
+//function for getting stats
+function getStats(arrFiles) {
+  for (let i = 0; i < arrFiles.length; i++) {
+    if (!arrFiles[i].endsWith('.jpg')) {
+      // check type of files  to chose  right files
+      fs.stat(`${folder}/${arrFiles[i]}`, function (err, stat) {
+        //get whole sstats
+        const { name, ext } = path.parse(arrFiles[i]); // get the name and extention
+        let size = stat.size.toString(); // get the size of files
+        console.log(name + ' - ' + ext + ' - ' + size);
+      });
+    }
   }
 }
+getTheFiles();
