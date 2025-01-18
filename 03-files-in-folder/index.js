@@ -17,10 +17,21 @@ fs.readdir(
               console.log(err);
             } else {
               let currFile = file.name;
-              let ext = Array.from(path.extname(currFile)).filter(el => el!=='.').join('') ;
-              let name = Array.from(path.basename(currFile, ext)).filter(el => el!=='.').join('');
-                
-              console.log(name, ' - ', ext, ' - ', (stats.size/1024).toFixed(3), 'kb')
+              let ext = Array.from(path.extname(currFile))
+                .filter((el) => el !== '.')
+                .join('');
+              let name = Array.from(path.basename(currFile, ext))
+                .filter((el) => el !== '.')
+                .join('');
+
+              console.log(
+                name,
+                ' - ',
+                ext,
+                ' - ',
+                (stats.size / 1024).toFixed(3),
+                'kb',
+              );
             }
           });
         }
@@ -28,4 +39,3 @@ fs.readdir(
     }
   },
 );
-

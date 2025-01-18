@@ -14,12 +14,15 @@ const getInput = function () {
       rl.close();
       process.exit();
     } else {
-      const writeStream = fs.createWriteStream (filePath, { flags: 'a', encoding: 'utf-8' }) 
+      const writeStream = fs.createWriteStream(filePath, {
+        flags: 'a',
+        encoding: 'utf-8',
+      });
       writeStream.on('error', (err) => {
         console.log('Something went wrong:', err);
       });
-      writeStream.on('open', () => {})
-      writeStream.write(input + `\n`)
+      writeStream.on('open', () => {});
+      writeStream.write(input + `\n`);
       writeStream.end();
       getInput();
     }
