@@ -17,7 +17,8 @@ const copyDir = () => {
       console.log(err);
       return;
     } else {
-      files.forEach((file) => {
+      deliteFiles(files);
+      files.forEach((file, i) => {
         const currFilePath = path.join(file.path, file.name);
         const destPath = path.join(dirPath, file.name);
         fs.copyFile(currFilePath, destPath, (err) => {
@@ -28,6 +29,31 @@ const copyDir = () => {
           }
         });
       });
+    }
+  });
+};
+
+const deliteFiles = function (files) {
+  fs.readdir(dirPath, { withFileTypes: true }, (err, copyFiles) => {
+    if (err) {
+      console.log(err);
+    } else {
+      if (copyFiles.length > files.length) {
+        const deletedFiles = copyFiles.filter((copyFile, i) => {
+          return !files.some((file) => file.name === copyFile.name);
+        });
+        deletedFiles.forEach(fileObj => {
+           const currPath = path.join(fileObj.path, fileObj.name)
+           fs.unlink(currPath, (err) => {
+            if(err) {
+              console.log(err)
+            } else {
+
+            }
+           })
+
+        })
+      }
     }
   });
 };
