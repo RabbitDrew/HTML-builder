@@ -4,12 +4,18 @@ const sourcePath = path.join(__dirname, 'styles');
 const destPath = path.join(__dirname, 'project-dist/bundle.css');
 
 const createBundle = () => {
-  const writeStream = fs.createWriteStream(destPath, {flags: 'w',encoding: 'utf-8',});
-    let isFileRad = 0
-  fs.readdir(sourcePath,{ withFileTypes: true, recursive: true },(err, files) => {
+  const writeStream = fs.createWriteStream(destPath, {
+    flags: 'w',
+    encoding: 'utf-8',
+  });
+  let isFileRead = 0;
+  fs.readdir(
+    sourcePath,
+    { withFileTypes: true, recursive: true },
+    (err, files) => {
       if (err) {
         console.error(err);
-        return 
+        return;
       } else {
         files.forEach((file) => {
           if (file.name.includes('.css')) {
@@ -19,25 +25,23 @@ const createBundle = () => {
               console.log(err);
             });
             readStream.on('data', (chunk) => {
-                writeStream.write(chunk);
+              writeStream.write(chunk);
             });
             readStream.on('end', (err) => {
-                if (err) {
-                    console.log(err)
-                }else {
-                    isFileRad ++
-                    if (isFileRad === files.length) {
-                        writeStream.end()
-                    }
+              if (err) {
+                console.log(err);
+              } else {
+                isFileRead++;
+                if (isFileRad === files.length) {
+                  writeStream.end();
                 }
-            })
+              }
+            });
           }
         });
-
       }
     },
   );
 };
-
 
 createBundle();
