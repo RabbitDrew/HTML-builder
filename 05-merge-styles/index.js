@@ -32,7 +32,7 @@ const createBundle = () => {
                 console.log(err);
               } else {
                 isFileRead++;
-                if (isFileRad === files.length) {
+                if (isFileRead === files.length) {
                   writeStream.end();
                 }
               }

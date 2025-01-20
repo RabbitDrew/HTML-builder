@@ -26,11 +26,9 @@ const copyTemplate = () => {
     }
   });
 };
-
+//tamplate editor
 const editTemplate = (destFolderPath, destFilePath) => {
   const readStream = fs.createReadStream(destFilePath, { encoding: 'utf-8' });
-
-  //reading project-dist folder
   fs.readdir(
     destFolderPath,
     { withFileTypes: true, recursive: true },
@@ -39,13 +37,8 @@ const editTemplate = (destFolderPath, destFilePath) => {
         console.log(err);
       } else {
         let chunks = '';
-
-        // all files in the folder
         files.forEach((copiedFile) => {
-          // check weather it's template or not
-          //if it's template than start reading folder components to get components for editing tamplate file
           if (copiedFile.name.includes('template.html')) {
-            // start reading source tamplateFile
             readStream.on('err', (err) => {
               if (err) {
                 console.log(err);
@@ -55,7 +48,6 @@ const editTemplate = (destFolderPath, destFilePath) => {
               chunks += chunk;
             });
             readStream.on('end', () => {
-              //readDirComponents
               fs.readdir(
                 soursePathComponents,
                 { withFileTypes: true, recursive: true },
@@ -105,11 +97,7 @@ const editTemplate = (destFolderPath, destFilePath) => {
     },
   );
 };
-
-copyTemplate();
-
 // bundle styles
-
 const compileStyle = (soursePathStyle, destFolderPath) => {
   const destFilePath = path.join(destFolderPath, 'style.css');
   const writeStream = fs.createWriteStream(destFilePath, { flags: 'w' });
@@ -147,8 +135,7 @@ const compileStyle = (soursePathStyle, destFolderPath) => {
     },
   );
 };
-
-//copyAssetsFolder
+//copy assets
 const copyAssets = (sourcePathAssets, destFolderPath) => {
   const destAthetsFolder = path.join(destFolderPath, 'assets');
   fs.cp(sourcePathAssets, destAthetsFolder, { recursive: true }, (err) => {
@@ -159,3 +146,6 @@ const copyAssets = (sourcePathAssets, destFolderPath) => {
     }
   });
 };
+
+
+copyTemplate();
