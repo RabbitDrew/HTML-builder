@@ -12,7 +12,7 @@ const copyTemplate = () => {
     if (err) {
       console.error('Error creating directory:', err);
     } else {
-      const destFilePath = path.join(destFolderPath, 'template.html');
+      const destFilePath = path.join(destFolderPath, 'index.html');
       fs.copyFile(sourceTemplate, destFilePath, (err) => {
         if (err) {
           console.log(err);
@@ -38,7 +38,7 @@ const editTemplate = (destFolderPath, destFilePath) => {
       } else {
         let chunks = '';
         files.forEach((copiedFile) => {
-          if (copiedFile.name.includes('template.html')) {
+          if (copiedFile.name.includes('index.html')) {
             readStream.on('err', (err) => {
               if (err) {
                 console.log(err);
@@ -67,16 +67,9 @@ const editTemplate = (destFolderPath, destFilePath) => {
                       );
 
                       readStreamComponents.on('data', (componentChunk) => {
-                        if (component.name.includes('header')) {
-                          chunks = chunks.replace('{{header}}', componentChunk);
-                        } else if (component.name.includes('articles')) {
-                          chunks = chunks.replace(
-                            '{{articles}}',
-                            componentChunk,
-                          );
-                        } else if (component.name.includes('footer')) {
-                          chunks = chunks.replace('{{footer}}', componentChunk);
-                        }
+                        const tag = component.name.split('.')[0];
+                        const regex = new RegExp(`{{${tag}}}`, 'g');
+                        chunks = chunks.replace(regex, componentChunk);
                       });
 
                       readStreamComponents.on('end', () => {
@@ -146,6 +139,5 @@ const copyAssets = (sourcePathAssets, destFolderPath) => {
     }
   });
 };
-
 
 copyTemplate();

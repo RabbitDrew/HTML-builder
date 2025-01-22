@@ -42,17 +42,15 @@ const deliteFiles = function (files) {
         const deletedFiles = copyFiles.filter((copyFile, i) => {
           return !files.some((file) => file.name === copyFile.name);
         });
-        deletedFiles.forEach(fileObj => {
-           const currPath = path.join(fileObj.path, fileObj.name)
-           fs.unlink(currPath, (err) => {
-            if(err) {
-              console.log(err)
+        deletedFiles.forEach((fileObj) => {
+          const currPath = path.join(fileObj.path, fileObj.name);
+          fs.unlink(currPath, (err) => {
+            if (err) {
+              console.log(err);
             } else {
-
             }
-           })
-
-        })
+          });
+        });
       }
     }
   });
