@@ -5,7 +5,6 @@ const soursePathComponents = path.join(__dirname, 'components');
 const soursePathStyle = path.join(__dirname, 'styles');
 const sourcePathAssets = path.join(__dirname, 'assets');
 const destFolderPath = path.join(__dirname, `project-dist`);
-
 /*copy template*/
 const copyTemplate = () => {
   fs.mkdir(destFolderPath, { recursive: true }, (err) => {

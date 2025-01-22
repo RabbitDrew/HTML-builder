@@ -4,7 +4,7 @@ const filePath = path.join(__dirname, 'secret-folder');
 
 fs.readdir(
   filePath,
-  { encoding: 'utf-8', withFileTypes: true, recursive: true },
+  { encoding: 'utf-8', withFileTypes: true},
   (err, files) => {
     if (err) {
       console.log(err);
