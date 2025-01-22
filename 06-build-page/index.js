@@ -130,12 +130,58 @@ const compileStyle = (soursePathStyle, destFolderPath) => {
 };
 //copy assets
 const copyAssets = (sourcePathAssets, destFolderPath) => {
-  const destAthetsFolder = path.join(destFolderPath, 'assets');
-  fs.cp(sourcePathAssets, destAthetsFolder, { recursive: true }, (err) => {
+  const destAssetsFolder = path.join(destFolderPath, 'assets');
+  fs.mkdir(destAssetsFolder, { recursive: true }, (err) => {
     if (err) {
-      console.error('Error copying directory:', err);
+      console.error('Error creating directory:', err);
+      return;
     } else {
-      console.log('copied');
+      fs.readdir(sourcePathAssets, { withFileTypes: true }, (err, entries) => {
+        if (err) {
+          console.log(err);
+        } else {
+          entries.forEach(entry => {
+            const filePatheSource = path.join(sourcePathAssets, entry.name);
+            const destFilePath = path.join(destAssetsFolder, entry.name);
+            if (entry.isDirectory()) {
+              fs.mkdir(destFilePath, { recursive: true }, (err) => {
+                if (err) {
+                  console.log(err);
+                } else {
+                 // console.log('Folder created: ', destFilePath);
+                  fs.readdir(filePatheSource, { withFileTypes: true }, (err, subEntries) => {
+                    if (err) {
+                      console.log(err);
+                    } else {
+                      subEntries.forEach(subEntry => {
+                        const subFilePatheSource = path.join(filePatheSource, subEntry.name);
+                        const subDestFilePath = path.join(destFilePath, subEntry.name);
+                        if (!subEntry.isDirectory()) {
+                          fs.copyFile(subFilePatheSource, subDestFilePath, (err) => {
+                            if (err) {
+                              console.log(err);
+                            } else {
+                             // console.log('File copied: ', subDestFilePath);
+                            }
+                          });
+                        }
+                      });
+                    }
+                  });
+                }
+              });
+            } else {
+              fs.copyFile(filePatheSource, destFilePath, (err) => {
+                if (err) {
+                  console.log(err);
+                } else {
+                 // console.log('File copied: ', destFilePath);
+                }
+              });
+            }
+          });
+        }
+      });
     }
   });
 };
